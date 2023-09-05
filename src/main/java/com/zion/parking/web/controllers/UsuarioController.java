@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,10 +32,15 @@ public class UsuarioController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Usuario> updatePassword(@PathVariable Long id, @RequestBody Usuario usuario) {
-        Usuario user = service.editarSenha(id, usuario.);
+        Usuario user = service.editarSenha(id, usuario.getPassword());
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping
+    public ResponseEntity<List<Usuario>> findAll() {
+        List<Usuario> usuarios = service.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+    }
 
 
 
