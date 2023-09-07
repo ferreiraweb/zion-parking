@@ -3,6 +3,8 @@ package com.zion.parking.web.controllers;
 
 import com.zion.parking.entities.Usuario;
 import com.zion.parking.services.UsuarioService;
+import com.zion.parking.web.dtos.UsuarioCreateDto;
+import com.zion.parking.web.dtos.mapper.UsuarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +21,12 @@ public class UsuarioController {
     private UsuarioService service;
 
     @PostMapping
-    public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
-        Usuario user = service.salvar(usuario);
+    public ResponseEntity<Usuario> create(@RequestBody UsuarioCreateDto createDto) {
+        Usuario user = service.salvar(UsuarioMapper.toUsuario(createDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> findById(@PathVariable Long id) {
