@@ -7,6 +7,7 @@ import com.zion.parking.web.dtos.UsuarioCreateDto;
 import com.zion.parking.web.dtos.UsuarioResponseDto;
 import com.zion.parking.web.dtos.UsuarioSenhaDto;
 import com.zion.parking.web.dtos.mapper.UsuarioMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class UsuarioController {
     private UsuarioService service;
 
     @PostMapping
-    public ResponseEntity<UsuarioResponseDto> create(@RequestBody UsuarioCreateDto createDto) {
+    public ResponseEntity<UsuarioResponseDto> create(@Valid @RequestBody  UsuarioCreateDto createDto) {
         Usuario user = service.salvar(UsuarioMapper.toUsuario(createDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toDto(user));
     }
@@ -37,15 +38,22 @@ public class UsuarioController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody UsuarioSenhaDto dto) {
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @Valid @RequestBody UsuarioSenhaDto dto) {
         Usuario user = service.editarSenha(id, dto.getSenhaAtual(), dto.getNovaSenha(), dto.getConfirmaSenha());
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> findAll() {
+    public ResponseEntity<List<UsuarioResponseDto>> findAll() {
         List<Usuario> usuarios = service.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+        /*
+        List<UsuarioResponseDto> listDtos = usuarios
+                .stream()
+                .map(user -> UsuarioMapper.toDto(user))
+                .toList();
+         */
+        List<UsuarioResponseDto> listDtos = UsuarioMapper.toListDto(usuarios);
+        return ResponseEntity.status(HttpStatus.OK).body(listDtos);
     }
 
 

@@ -1,5 +1,8 @@
 package com.zion.parking.web.dtos;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class UsuarioSenhaDto {
 
     public UsuarioSenhaDto() {
@@ -11,8 +14,14 @@ public class UsuarioSenhaDto {
         this.confirmaSenha = confirmaSenha;
     }
 
+    @NotBlank(message = "Informe a senha atual")
+    @Size(min = 6, max = 6, "A senha deve ter 6 caracteres")
     private String senhaAtual;
+    @NotBlank(message = "Informe a senha atual")
+    @Size(min = 6, max = 6, "A senha deve ter 6 caracteres")
     private String novaSenha;
+    @NotBlank(message = "Informe a senha atual")
+    @Size(min = 6, max = 6, "A senha deve ter 6 caracteres")
     private String confirmaSenha;
 
     public String getSenhaAtual() {
