@@ -6,7 +6,7 @@ import com.zion.parking.services.UsuarioService;
 import com.zion.parking.web.dtos.UsuarioCreateDto;
 import com.zion.parking.web.dtos.UsuarioResponseDto;
 import com.zion.parking.web.dtos.UsuarioSenhaDto;
-import com.zion.parking.web.dtos.mapper.UsuarioMapper;
+import com.zion.parking.web.mappers.UsuarioMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/usuarios")

@@ -1,4 +1,4 @@
-package com.zion.parking.web.dtos.mapper;
+package com.zion.parking.web.mappers;
 
 import com.zion.parking.entities.Usuario;
 import com.zion.parking.web.dtos.UsuarioCreateDto;
