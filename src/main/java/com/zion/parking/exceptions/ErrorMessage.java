@@ -1,5 +1,6 @@
 package com.zion.parking.exceptions;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -20,11 +21,13 @@ public class ErrorMessage implements Serializable {
     private int status;
     private String statusText;
     private String message;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> erros;
 
     public ErrorMessage(){}
 
     public ErrorMessage(HttpServletRequest request, HttpStatus status, String message) {
+        this.timestamp = new Date();
         this.path = request.getRequestURI();
         this.method = request.getMethod();
         this.status = status.value();
@@ -33,6 +36,7 @@ public class ErrorMessage implements Serializable {
     }
 
     public ErrorMessage(HttpServletRequest request, HttpStatus status, String message, BindingResult result) {
+        this.timestamp = new Date();
         this.path = request.getRequestURI();
         this.method = request.getMethod();
         this.status = status.value();

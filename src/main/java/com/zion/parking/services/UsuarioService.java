@@ -1,7 +1,11 @@
 package com.zion.parking.services;
 
+import ch.qos.logback.core.encoder.EchoEncoder;
 import com.zion.parking.entities.Usuario;
+import com.zion.parking.exceptions.EntityNotFoundException;
+import com.zion.parking.exceptions.UserNameUniqueViolationExcetion;
 import com.zion.parking.repositories.UsuarioRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +23,18 @@ public class UsuarioService {
 
 
     @Transactional
-    public Usuario salvar(Usuario usuario) {
-        return repository.save(usuario);
+    public Usuario salvar(Usuario usuario)  {
+        try{
+            return repository.save(usuario);
+        } catch (DataIntegrityViolationException ex) {
+            throw new UserNameUniqueViolationExcetion(ex.getMessage());
+        }
     }
 
     @Transactional(readOnly = true)
     public Usuario findById(Long id) {
         return repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Usuario não encontrado") );
+                () -> new EntityNotFoundException(String.format("Usuario id = %s não encontrado", id)) );
     }
 
     @Transactional
