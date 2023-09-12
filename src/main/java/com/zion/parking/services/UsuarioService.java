@@ -3,6 +3,7 @@ package com.zion.parking.services;
 import ch.qos.logback.core.encoder.EchoEncoder;
 import com.zion.parking.entities.Usuario;
 import com.zion.parking.exceptions.EntityNotFoundException;
+import com.zion.parking.exceptions.PasswordInvalidException;
 import com.zion.parking.exceptions.UserNameUniqueViolationExcetion;
 import com.zion.parking.repositories.UsuarioRepository;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -41,13 +42,13 @@ public class UsuarioService {
     public Usuario editarSenha(Long id, String senhaAtual, String novaSenha, String confirmaSenha) {
 
         if (!novaSenha.equals(confirmaSenha)) {
-            throw new RuntimeException("Nova senha não confere com confirma senha");
+            throw new PasswordInvalidException("Nova senha não confere com confirma senha");
         }
 
         Usuario user = findById(id);
 
         if (!user.getPassword().equals(senhaAtual)) {
-            throw new RuntimeException("Senha não confere");
+            throw new PasswordInvalidException("Senha não confere");
         }
 
         user.setPassword(novaSenha);
