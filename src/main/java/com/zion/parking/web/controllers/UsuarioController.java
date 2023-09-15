@@ -32,32 +32,29 @@ public class UsuarioController {
     @Operation(
             summary = "Cria um novo usuário", description = "Recurso para criar um novo usuário",
             responses = {
-                @ApiResponse(
-                    responseCode = "201",
-                    description = "Recurso criado com sucesso",
-                    content = @Content(mediaType = "appliction/json",
-                               schema = @Schema(implementation = UsuarioResponseDto.class)
-                    )),
-                @ApiResponse(
-                    responseCode = "409",
-                    description = "Usuario e e-mail já cadastrado",
-                    content = @Content(mediaType = "application/json",
-                                        schema = @Schema(implementation = ErrorMessage.class))),
-                @ApiResponse(
-                    responseCode = "422",
-                    description = "Recurso não processado por dados de entrada inválidos",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorMessage.class)))
-
-
-        }
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Recurso criado com sucesso",
+                            content = @Content(mediaType = "appliction/json",
+                                    schema = @Schema(implementation = UsuarioResponseDto.class)
+                            )),
+                    @ApiResponse(
+                            responseCode = "409",
+                            description = "Usuario e e-mail já cadastrado",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorMessage.class))),
+                    @ApiResponse(
+                            responseCode = "422",
+                            description = "Recurso não processado por dados de entrada inválidos",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorMessage.class)))
+            }
     )
     @PostMapping
-    public ResponseEntity<UsuarioResponseDto> create(@Valid @RequestBody  UsuarioCreateDto createDto) {
+    public ResponseEntity<UsuarioResponseDto> create(@Valid @RequestBody UsuarioCreateDto createDto) {
         Usuario user = service.salvar(UsuarioMapper.toUsuario(createDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toDto(user));
     }
-
 
 
     @GetMapping("/{id}")
@@ -84,8 +81,6 @@ public class UsuarioController {
         List<UsuarioResponseDto> listDtos = UsuarioMapper.toListDto(usuarios);
         return ResponseEntity.status(HttpStatus.OK).body(listDtos);
     }
-
-
 
 
 }
