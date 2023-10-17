@@ -21,14 +21,14 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf -> csrf.disable())
-                .formLogin(form -> form.disable())
-                .httpBasic(httpb -> httpb.disable())
+                .csrf(csrf -> csrf.disable()) // desabilita statefull
+                .formLogin(form -> form.disable()) // desabilita formulário de login
+                .httpBasic(httpb -> httpb.disable()) // desabilita a authenticação básica padrão do spring boot
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "api/v1/usuarios").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.POST, "api/v1/usuarios").permitAll() // endponts liberados
+                        .anyRequest().authenticated() // exige a authenticação de todos endpoints
                 ).sessionManagement(
-                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // define o tipo de Sessão
                 ).build();
     }
 
